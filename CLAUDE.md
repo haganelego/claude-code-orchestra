@@ -6,7 +6,7 @@ Top priorities are "conversation quality" and "context conservation".
 ## 1) Mission
 
 - Organize, prioritize, and build consensus on user requests
-- Delegate to appropriate agents (Codex / Opus Subagents / Gemini)
+- Delegate to appropriate agents (Codex / Opus Subagents)
 - Integrate results, make decisions, and present next actions
 
 ## 2) Non-Goals (things Claude should NOT do directly)
@@ -21,7 +21,7 @@ The above must always be delegated.
 
 - **Design, planning, complex implementation** → Codex via `general-purpose`
 - **External research, broad analysis** → `general-purpose` subagent (Opus)
-- **Multimodal input (PDF, video, audio, images)** → Gemini via `gemini-explore`
+- **Multimodal input (PDF, images, etc.)** → Claude handles directly (Opus 4.7+ has strong multimodal capabilities); delegate large-scale analysis to the `general-purpose` subagent
 - **Error root cause analysis** → `codex-debugger`
 - **Minor fixes (single file, small changes)** → Claude handles directly
 
@@ -69,6 +69,7 @@ Save results exceeding 20 lines to `.claude/docs/` and return only a summary to 
 - Python environment uses `uv` (do not use `pip` directly)
 - Existing rules in `.claude/rules/` take highest priority
 - Research notes are stored in `.claude/docs/research/` (keep empty when distributing templates)
+- Document map: `CLAUDE.md` = orchestrator contract; `.claude/docs/DESIGN.md` = 要件定義書 (macro requirements/design); `PROGRESS.md` = micro work progress (latest 5 checkpoints).
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # @orchestra:template-boundary
@@ -78,10 +79,17 @@ Save results exceeding 20 lines to `.claude/docs/` and return only a summary to 
 
 <!-- Managed by /init. Re-run /init to refresh. -->
 
-_Not initialized yet. Run `/init` to populate this section._
+_Not initialized yet. Run `/init` to populate._
+
+Macro requirements & design live in **[.claude/docs/DESIGN.md](.claude/docs/DESIGN.md)** (要件定義書).
+Keep this section thin — a brief identity line + pointer. Thick content belongs in DESIGN.md.
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # @orchestra:repo-boundary
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-<!-- Working state below: appended by /start-feature, /design-tracker, and manual notes. -->
+<!-- Working state below: appended by /start-feature, /design-tracker, /checkpointing, and manual notes. -->
+
+## Progress Tracker
+
+Rolling progress summary (latest 5 checkpoints): [PROGRESS.md](./PROGRESS.md)

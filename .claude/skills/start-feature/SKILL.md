@@ -14,7 +14,7 @@ metadata:
 
 **Feature kickoff skill leveraging Opus 1M context and Agent Teams.**
 
-> **Preflight:** Update CLIs before starting — `claude update && npm install -g @openai/codex@latest @google/gemini-cli@latest`. Releases drift frequently (model names, flags, sandbox semantics).
+> **Preflight:** Update CLIs before starting — `claude update && npm install -g @openai/codex@latest`. Releases drift frequently (model names, flags, sandbox semantics).
 
 ## Overview
 
@@ -48,6 +48,15 @@ Phase 3: PLAN & APPROVE (Claude Lead + User)
 **Analyze the codebase with Opus subagent's 1M context while Claude interacts with the user.**
 
 > Main orchestrator context is precious. Large-scale codebase analysis is delegated to Opus subagent (1M context).
+
+### Step 0: Read PROGRESS.md (always first)
+
+Before anything else, if `PROGRESS.md` exists at the repository root, **read it**.
+It is the rolling summary of the latest 5 checkpoints (maintained by
+`/checkpointing`) and carries the most recent session context, in-progress work,
+and the "将来のアクション" (next actions) from prior sessions. Use it to ground
+the new feature in what already happened and to avoid re-deciding settled
+questions. If it is absent (fresh repo), skip this step.
 
 ### Step 1: Analyze Codebase with Opus Subagent
 
@@ -192,7 +201,7 @@ Spawn two teammates:
    4. Identify risks and mitigation strategies
 
    How to consult Codex:
-   codex exec --model "${CODEX_MODEL:-gpt-5.4}" --sandbox read-only "{question}" 2>/dev/null
+   codex exec --model "${CODEX_MODEL:-gpt-5.5}" --sandbox read-only "{question}" 2>/dev/null
 
    Update .claude/docs/DESIGN.md with architecture decisions.
 
@@ -239,10 +248,10 @@ Researcher: "httpx has a connection pool limit of 100 by default"
 ```
 
 Without Agent Teams (old subagent approach), this would require:
-1. Gemini subagent finishes → returns summary
+1. Researcher subagent finishes → returns summary
 2. Claude reads summary → creates new Codex subagent prompt
 3. Codex subagent finishes → returns summary
-4. If Codex needs more info → another Gemini subagent round
+4. If Codex needs more info → another researcher subagent round
 
 Agent Teams collapses this into a single parallel session with real-time interaction.
 
